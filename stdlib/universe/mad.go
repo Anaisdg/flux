@@ -181,54 +181,15 @@ func (a *MadFloatAgg) DoFloat(vs *array.Float64) {
 	a.q.DoFloat(vs)
 }
 
-// 	for i, l := 0, vs.Len(); i < l; i++ {
-
-// 	}
-// }
-
 // test if we can order the dataset CHECK
 // test if we can find the median CHECK
 // test if we can find the differences between median and each value
 // test if we can find the sort that difference
 // test if we can find the median value of that
 
-//
 //vs.Retain tells arrow. says I still need this memory.
 //DoFloat gets called values get passed in, calling retain says don't release and keep a reference to it. It doesn't reuse it.
 //Implementation detail: Arrow can allocate memory and free memory (in the future sync.pool to not have to call make everytime because make is expensive)
-
-// 	sort.Slice(vs.Float64Values(), func(i, j int) bool {
-// 		return vs.Float64Values()[i] < vs.Float64Values()[j]
-// 	})
-// 	fmt.Printf("sorted %v", vs.Float64Values())
-// 	lDataset := len(vs.Float64Values()) // find length of Dataset
-// 	mNumber := lDataset / 2             // find the median
-// 	fmt.Printf("length %v\nmiddle %v\n", lDataset, mNumber)
-// 	var median float64
-
-// 	if lDataset%2 == 0 {
-// 		median = (vs.Float64Values()[mNumber-1] + vs.Float64Values()[mNumber]) / 2
-// 	} else {
-// 		median = vs.Float64Values()[mNumber]
-// 	}
-// 	fmt.Printf("median %v\n\n", median)
-
-// 	var diff []float64
-// 	for _, j := range vs.Float64Values() {
-// 		diff = append(diff, j-median)
-// 	}
-// 	sort.Slice(diff, func(i, j int) bool {
-// 		return diff[i] < diff[j]
-// 	})
-// 	lDataset = len(diff) // find length of Dataset
-// 	mNumber = lDataset / 2
-// 	if lDataset%2 == 0 {
-// 		a.mad = (diff[mNumber-1] + diff[mNumber]) / 2
-// 	} else {
-// 		a.mad = diff[mNumber]
-// 	}
-// 	a.ok = true
-// }
 
 func (a *MadFloatAgg) Type() flux.ColType {
 	return flux.TFloat
