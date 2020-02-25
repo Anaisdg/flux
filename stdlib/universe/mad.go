@@ -177,7 +177,7 @@ type MadFloatAgg struct {
 
 func (a *MadFloatAgg) DoFloat(vs *array.Float64) {
 	vs.Retain()
-	a.mad = append(a.mad, vs)
+	a.mad = append(a.mad, vs.Value())
 	a.q.DoFloat(vs)
 }
 

@@ -312,28 +312,38 @@ func (a *ExactQuantileAgg) NewStringAgg() execute.DoStringAgg {
 }
 
 func (a *ExactQuantileAgg) DoFloat(vs *array.Float64) {
+	// vs.Retain()
+	// sort and append
+	//a.s.DoFloat(vs)
+	// a.data = append(a.data, vs)
+
 	if vs.NullN() == 0 {
-		a.data = append(a.data, vs.Float64Values()...)
+		vs.Retain()
+		a.data = append(a.data, vs)
 		return
 	}
+// 	if vs.NullN() == 0 {
+// 		a.data = append(a.data, vs.Float64Values()...)
+// 		return
+// 	}
 
-	// Check if we have enough space for the floats
-	// inside of the array.
-	l := vs.Len() - vs.NullN()
-	if len(a.data)+l > cap(a.data) {
-		// We do not. Create an array with the needed size and
-		// copy over the existing data.
-		data := make([]float64, len(a.data), len(a.data)+l)
-		copy(data, a.data)
-		a.data = data
-	}
+// 	// Check if we have enough space for the floats
+// 	// inside of the array.
+// 	l := vs.Len() - vs.NullN()
+// 	if len(a.data)+l > cap(a.data) {
+// 		// We do not. Create an array with the needed size and
+// 		// copy over the existing data.
+// 		data := make([]float64, len(a.data), len(a.data)+l)
+// 		copy(data, a.data)
+// 		a.data = data
+// 	}
 
-	for i := 0; i < vs.Len(); i++ {
-		if vs.IsValid(i) {
-			a.data = append(a.data, vs.Value(i))
-		}
-	}
-}
+// 	for i := 0; i < vs.Len(); i++ {
+// 		if vs.IsValid(i) {
+// 			a.data = append(a.data, vs.Value(i))
+// 		}
+// 	}
+// }
 
 func (a *ExactQuantileAgg) Type() flux.ColType {
 	return flux.TFloat
